@@ -11,6 +11,11 @@ class UserController {
     return user;
   }
 
+  async getUserByEmail(email) {
+    const user = await User.findOne({ email: email }).exec();
+    return user;
+  }
+
   async createUser(firstName, lastName, email, role, password) {
     const user = await User.create({
       firstName,
