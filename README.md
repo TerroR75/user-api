@@ -42,7 +42,7 @@ To create a MongoDB connection follow these steps:
 
 4. In MongoDB Compass, click Connect and you should be connected by default on `localhost:27017`
 
-5. Opn `api/database/index.js` and change
+5. Open `api/database/index.js` and change
 
    ```javascript
    const url = "mongodb://127.0.0.1:27017/[DB NAME HERE]";
