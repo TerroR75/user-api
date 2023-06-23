@@ -15,7 +15,7 @@ Project is created with:
 - Node.js: 18.16.0
 - MongoDB Community Server + Compass: 6.0.6
 
-For more dependencies check ` package.json`
+For more dependencies check [package.json](./package.json)
 
 ## Setup
 
