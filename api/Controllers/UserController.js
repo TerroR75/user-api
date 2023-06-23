@@ -1,9 +1,14 @@
 const User = require("../Models/User");
 
 class UserController {
-  async getAllUsers() {
-    const usersArray = await User.find();
-    return usersArray;
+  async getAllUsers(role = "") {
+    if (role === "") {
+      const usersArray = await User.find();
+      return usersArray;
+    } else {
+      const usersArray = await User.find({ role: role });
+      return usersArray;
+    }
   }
 
   async getUserById(id) {
@@ -16,6 +21,23 @@ class UserController {
     return user;
   }
 
+  async updateUserById(id, newValuesObj) {
+    const user = await User.findById(id);
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      {
+        firstName: newValuesObj.firstName
+          ? newValuesObj.firstName
+          : user.firstName,
+        lastName: newValuesObj.lastName ? newValuesObj.lastName : user.lastName,
+        role: newValuesObj.role ? newValuesObj.role : user.role,
+      },
+      { new: true }
+    );
+
+    return updatedUser;
+  }
+
   async createUser(firstName, lastName, email, role, password) {
     const user = await User.create({
       firstName,
@@ -24,7 +46,12 @@ class UserController {
       role,
       password,
     });
-    console.log(user, " Created a new user!");
+    return user;
+  }
+
+  async deleteUser(id) {
+    const user = await User.findByIdAndDelete(id);
+    return user;
   }
 }
 
