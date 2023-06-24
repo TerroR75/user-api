@@ -3,6 +3,7 @@ const router = express.Router();
 const userController = require("../Controllers/UserController");
 const jwt = require("jsonwebtoken");
 const BRIEFCASE = require("../database/secretKey");
+const bcrypt = require("bcrypt");
 
 // MIDDLEWARE IMPORTS
 const authenticateToken = require("../Middleware/authenticateToken");
@@ -29,6 +30,7 @@ router.get("/user/:id", async (req, res) => {
   }
 });
 
+// Signing in
 router.post("/user/login", async (req, res) => {
   const { email, password } = req.body;
   // Authenticate user
@@ -45,7 +47,9 @@ router.post("/user/login", async (req, res) => {
       role: user.role,
     };
 
-    if (user.password === password) {
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (passwordMatch) {
       // Generate JWT token
       const accessToken = jwt.sign(serializedUser, BRIEFCASE.SECRET_KEY, {
         expiresIn: "30m",
@@ -68,10 +72,18 @@ router.post("/user/logout", (req, res) => {
   res.status(200).json({ message: "Logged out successfully" });
 });
 
+// Registering users
 router.post("/user", async (req, res) => {
   const { firstName, lastName, email, role, password } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 12);
   try {
-    await userController.createUser(firstName, lastName, email, role, password);
+    await userController.createUser(
+      firstName,
+      lastName,
+      email,
+      role,
+      hashedPassword
+    );
     res.status(201).json({ message: "User successfully created!" });
   } catch (error) {
     if (
