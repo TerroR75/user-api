@@ -1,15 +1,15 @@
-const express = require("express");
-const router = express.Router();
-const userController = require("../Controllers/UserController");
-const jwt = require("jsonwebtoken");
-const BRIEFCASE = require("../service/secretKey");
-const bcrypt = require("bcrypt");
+import express from "express";
+import userController from "../Controllers/UserController.js";
+import jwt from "jsonwebtoken";
+import BRIEFCASE from "../service/secretKey.js";
+import bcrypt from "bcrypt";
 
+const userRouter = express.Router();
 // MIDDLEWARE IMPORTS
-const authenticateToken = require("../Middleware/authenticateToken");
-const registerValidation = require("../Middleware/registerValidation");
+import authenticateToken from "../Middleware/authenticateToken.js";
+import registerValidation from "../Middleware/registerValidation.js";
 
-router.get("/users", authenticateToken, async (req, res) => {
+userRouter.get("/users", authenticateToken, async (req, res) => {
   const { role } = req.query;
 
   try {
@@ -20,7 +20,7 @@ router.get("/users", authenticateToken, async (req, res) => {
   }
 });
 
-router.get("/user/:id", authenticateToken, async (req, res) => {
+userRouter.get("/user/:id", authenticateToken, async (req, res) => {
   const id = req.params.id;
   console.log(id);
   try {
@@ -32,7 +32,7 @@ router.get("/user/:id", authenticateToken, async (req, res) => {
 });
 
 // Signing in
-router.post("/user/login", async (req, res) => {
+userRouter.post("/user/login", async (req, res) => {
   const { email, password } = req.body;
   // Authenticate user
   try {
@@ -68,13 +68,13 @@ router.post("/user/login", async (req, res) => {
   }
 });
 
-router.post("/user/logout", (req, res) => {
+userRouter.post("/user/logout", (req, res) => {
   res.clearCookie("token");
   res.status(200).json({ message: "Logged out successfully" });
 });
 
 // Registering users
-router.post("/user", registerValidation, async (req, res) => {
+userRouter.post("/user", registerValidation, async (req, res) => {
   const { firstName, lastName, email, role, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 12);
   try {
@@ -100,7 +100,7 @@ router.post("/user", registerValidation, async (req, res) => {
   }
 });
 
-router.patch("/user/:id", authenticateToken, async (req, res) => {
+userRouter.patch("/user/:id", authenticateToken, async (req, res) => {
   const id = req.params.id;
   const { firstName, lastName, role } = req.body;
   const updatedUser = await userController.updateUserById(id, {
@@ -112,7 +112,7 @@ router.patch("/user/:id", authenticateToken, async (req, res) => {
   res.json(updatedUser);
 });
 
-router.delete("/user/:id", authenticateToken, async (req, res) => {
+userRouter.delete("/user/:id", authenticateToken, async (req, res) => {
   const id = req.params.id;
   try {
     const deletedUser = await userController.deleteUser(id);
@@ -125,4 +125,4 @@ router.delete("/user/:id", authenticateToken, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default userRouter;

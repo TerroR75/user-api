@@ -1,4 +1,4 @@
-const User = require("../Models/User");
+import User from "../Models/User.js";
 
 class UserController {
   async getAllUsers(role = "") {
@@ -55,4 +55,6 @@ class UserController {
   }
 }
 
-module.exports = new UserController();
+const userController = new UserController();
+
+export default userController;

@@ -1,10 +1,12 @@
-const express = require("express");
+import express from "express";
 const app = express();
-const connectToDatabase = require("./api/service/index");
-const cookieParser = require("cookie-parser");
+
+import cookieParser from "cookie-parser";
+import connectToDatabase from "./api/service/db.js";
 
 // Routes
-const userRoutes = require("./api/routes/userRoutes");
+// const userRoutes = require("./api/routes/userRoutes");
+import userRouter from "./api/routes/userRoutes.js";
 
 const port = 3000;
 
@@ -17,4 +19,4 @@ app.listen(port, () => {
   connectToDatabase();
 });
 
-app.use("/api", userRoutes);
+app.use("/api", userRouter);

@@ -1,4 +1,4 @@
-const Joi = require("joi");
+import Joi from "joi";
 
 const schema = Joi.object({
   firstName: Joi.string(),
@@ -8,7 +8,7 @@ const schema = Joi.object({
   password: Joi.string().min(6).required("Password is required!"),
 });
 
-function registerValidation(req, res, next) {
+export default function registerValidation(req, res, next) {
   const { error } = schema.validate(req.body);
 
   if (error) {
@@ -18,5 +18,3 @@ function registerValidation(req, res, next) {
     next();
   }
 }
-
-module.exports = registerValidation;

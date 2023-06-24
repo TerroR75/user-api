@@ -1,7 +1,7 @@
-const jwt = require("jsonwebtoken");
-const BRIEFCASE = require("../service/secretKey");
+import jwt from "jsonwebtoken";
+import BRIEFCASE from "../service/secretKey.js";
 
-function authenticateToken(req, res, next) {
+export default function authenticateToken(req, res, next) {
   const token = req.cookies.token;
 
   try {
@@ -13,5 +13,3 @@ function authenticateToken(req, res, next) {
     res.status(401).json({ error: `Unauthorized! ${error}` });
   }
 }
-
-module.exports = authenticateToken;
