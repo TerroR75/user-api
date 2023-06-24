@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const BRIEFCASE = require("../database/secretKey");
+const BRIEFCASE = require("../service/secretKey");
 
 function authenticateToken(req, res, next) {
   const token = req.cookies.token;

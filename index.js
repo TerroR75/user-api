@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const connectToDatabase = require("./api/database/index");
+const connectToDatabase = require("./api/service/index");
 const cookieParser = require("cookie-parser");
 
 // Routes

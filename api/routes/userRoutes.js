@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const userController = require("../Controllers/UserController");
 const jwt = require("jsonwebtoken");
-const BRIEFCASE = require("../database/secretKey");
+const BRIEFCASE = require("../service/secretKey");
 const bcrypt = require("bcrypt");
 
 // MIDDLEWARE IMPORTS
