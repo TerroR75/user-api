@@ -2,11 +2,11 @@ import express from "express";
 const app = express();
 
 import cookieParser from "cookie-parser";
-import connectToDatabase from "./api/service/db.js";
+import connectToDatabase from "./src/service/db.js";
 
 // Routes
 // const userRoutes = require("./api/routes/userRoutes");
-import userRouter from "./api/routes/userRoutes.js";
+import userRouter from "./src/routes/userRoutes.js";
 
 const port = 3000;
 
