@@ -48,7 +48,7 @@ router.post("/user/login", async (req, res) => {
     if (user.password === password) {
       // Generate JWT token
       const accessToken = jwt.sign(serializedUser, BRIEFCASE.SECRET_KEY, {
-        expiresIn: "15m",
+        expiresIn: "30m",
       });
       res.cookie("token", accessToken, {
         httpOnly: true,
