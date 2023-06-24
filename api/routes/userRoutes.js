@@ -7,6 +7,7 @@ const bcrypt = require("bcrypt");
 
 // MIDDLEWARE IMPORTS
 const authenticateToken = require("../Middleware/authenticateToken");
+const registerValidation = require("../Middleware/registerValidation");
 
 router.get("/users", authenticateToken, async (req, res) => {
   const { role } = req.query;
@@ -73,7 +74,7 @@ router.post("/user/logout", (req, res) => {
 });
 
 // Registering users
-router.post("/user", async (req, res) => {
+router.post("/user", registerValidation, async (req, res) => {
   const { firstName, lastName, email, role, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 12);
   try {
