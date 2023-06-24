@@ -6,7 +6,7 @@ import connectToDatabase from "./src/service/db.js";
 
 // Routes
 // const userRoutes = require("./api/routes/userRoutes");
-import userRouter from "./src/routes/userRoutes.js";
+import userRouter from "./src/routes/userRouter.js";
 
 const port = 3000;
 
