@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 
-const url = "mongodb://127.0.0.1:27017/UserAPI";
+const dbName = "UserAPI";
+
+const url = `mongodb://127.0.0.1:27017/${dbName}`;
 
 async function connectToDatabase() {
   try {
@@ -8,7 +10,7 @@ async function connectToDatabase() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log("Connected to MongoDB");
+    console.log(`Connected to MongoDB (${dbName})`);
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
   }

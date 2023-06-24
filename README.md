@@ -61,7 +61,7 @@ To create a MongoDB connection follow these steps:
 5. Open `api/database/index.js` and change
 
    ```javascript
-   const url = "mongodb://127.0.0.1:27017/[DB NAME HERE]";
+   const dbName = "DB NAME HERE";
    ```
 
 6. If you are using Postman for testing the API, feel free to use my [Postman API calls collection](./users-api-collection.json)

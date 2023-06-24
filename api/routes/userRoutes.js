@@ -20,7 +20,7 @@ router.get("/users", authenticateToken, async (req, res) => {
   }
 });
 
-router.get("/user/:id", async (req, res) => {
+router.get("/user/:id", authenticateToken, async (req, res) => {
   const id = req.params.id;
   console.log(id);
   try {
@@ -39,7 +39,7 @@ router.post("/user/login", async (req, res) => {
     // Find user by his email
     const user = await userController.getUserByEmail(email);
     if (!user) {
-      res.status(404).json({ message: "User with this email does not exist!" });
+      res.status(400).json({ error: "User with this email does not exist!" });
     }
     const serializedUser = {
       id: user._id,
@@ -60,7 +60,7 @@ router.post("/user/login", async (req, res) => {
       });
       res.status(200).json({ message: "Logged in successfuly!" });
     } else {
-      res.status(401).json({ error: "Wrong credentials!" });
+      res.status(400).json({ error: "Wrong credentials!" });
     }
   } catch (error) {
     res.send(error);
@@ -92,15 +92,15 @@ router.post("/user", registerValidation, async (req, res) => {
       error.keyPattern &&
       error.keyPattern.email === 1
     ) {
-      res.status(400).json({ message: "Email already is in use!" });
+      res.status(400).json({ error: "Email is already in use!" });
     } else {
       console.error("Error creating user:", error);
-      res.status(500).json({ message: "Internal server error" });
+      res.status(500).json({ error: "Internal server error" });
     }
   }
 });
 
-router.patch("/user/:id", async (req, res) => {
+router.patch("/user/:id", authenticateToken, async (req, res) => {
   const id = req.params.id;
   const { firstName, lastName, role } = req.body;
   const updatedUser = await userController.updateUserById(id, {
@@ -112,7 +112,7 @@ router.patch("/user/:id", async (req, res) => {
   res.json(updatedUser);
 });
 
-router.delete("/user/:id", async (req, res) => {
+router.delete("/user/:id", authenticateToken, async (req, res) => {
   const id = req.params.id;
   try {
     const deletedUser = await userController.deleteUser(id);
