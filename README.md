@@ -2,6 +2,7 @@
 
 - [General info](#general-info)
 - [Technologies](#technologies)
+- [Features](#features)
 - [Setup](#setup)
 
 ## General info
@@ -16,6 +17,21 @@ Project is created with:
 - MongoDB Community Server + Compass: 6.0.6
 
 For more dependencies check [package.json](./package.json)
+
+## Features
+
+- User authentication
+  - Signing in and registering `jwt`
+  - Password hashing `bcrypt`
+  - Register credentials validation `Joi`
+- User authorization
+  - Only authorized users can fetch all users GET /api/users `jwt`
+- Data fetching from MongoDB local server `MongoDB, MongoDB Compass`
+- Full CRUD implemented
+  - Create - `POST /api/user`
+  - Read - `GET /api/users` OR `GET /api/users?role=?`
+  - Update - `PATCH /api/user/[ID]`
+  - Delete - `DELETE /api/user/[ID]`
 
 ## Setup
 
@@ -47,3 +63,5 @@ To create a MongoDB connection follow these steps:
    ```javascript
    const url = "mongodb://127.0.0.1:27017/[DB NAME HERE]";
    ```
+
+6. If you are using Postman for testing the API, feel free to use my [Postman API calls collection](./users-api-collection.json)
