@@ -58,7 +58,7 @@ To create a MongoDB connection follow these steps:
 
 4. In MongoDB Compass, click Connect and you should be connected by default on `localhost:27017`
 
-5. Create database (default name is: `UserAPI`)
+5. There should be a database created automatically called `UserAPI`, if not, create it (default name is: `UserAPI`)
 
 6. Open `src/service/db.js` and change
 
