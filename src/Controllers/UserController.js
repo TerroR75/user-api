@@ -9,7 +9,7 @@ export async function getAllUsers(req, res) {
 
   try {
     const users = await UserModel.getAllUsers(role);
-    res.status(200).json(users);
+    return res.status(200).json(users);
   } catch (error) {
     console.log(error);
   }
@@ -17,10 +17,13 @@ export async function getAllUsers(req, res) {
 
 export async function getUserById(req, res) {
   const id = req.params.id;
-  console.log(id);
   try {
     const user = await UserModel.getUserById(id);
-    res.status(200).json(user);
+    if (!user)
+      return res
+        .status(400)
+        .json({ error: `No user with id: ${id} was found.` });
+    return res.status(200).json(user);
   } catch (error) {
     console.log(error);
   }
@@ -65,7 +68,7 @@ export async function loginUser(req, res) {
 
 export function logoutUser(req, res) {
   res.clearCookie("token");
-  res.status(200).json({ message: "Logged out successfully" });
+  return res.status(200).json({ message: "Logged out successfully" });
 }
 
 export async function registerUser(req, res) {
@@ -79,17 +82,17 @@ export async function registerUser(req, res) {
       role,
       hashedPassword
     );
-    res.status(201).json({ message: "User successfully created!" });
+    return res.status(201).json({ message: "User successfully created!" });
   } catch (error) {
     if (
       error.code === 11000 &&
       error.keyPattern &&
       error.keyPattern.email === 1
     ) {
-      res.status(400).json({ error: "Email is already in use!" });
+      return res.status(400).json({ error: "Email is already in use!" });
     } else {
       console.error("Error creating user:", error);
-      res.status(500).json({ error: "Internal server error" });
+      return res.status(500).json({ error: "Internal server error" });
     }
   }
 }
@@ -105,7 +108,7 @@ export async function updateUserById(req, res) {
       role,
     });
     if (!updatedUser)
-      res
+      return res
         .status(400)
         .json({ error: `User with provided id: ${id} doesn't exist! ` });
     return res.json(updatedUser);
@@ -125,7 +128,7 @@ export async function deleteUserById(req, res) {
         .status(400)
         .json({ error: `No user with id: ${id} was found.` });
     }
-    res.status(200).json({
+    return res.status(200).json({
       message: `Successfully deleted user with id ${id}`,
       content: deletedUser,
     });
