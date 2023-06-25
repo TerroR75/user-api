@@ -11,12 +11,11 @@ export async function getAllUsers(req, res) {
     const users = await UserModel.getAllUsers(role);
     return res.status(200).json(users);
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 }
 
-export async function getUserById(req, res) {
+export async function getUserById(req, res, next) {
   const id = req.params.id;
   try {
     const user = await UserModel.getUserById(id);
@@ -26,8 +25,7 @@ export async function getUserById(req, res) {
         .json({ error: `No user with id: ${id} was found.` });
     return res.status(200).json(user);
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 }
 
@@ -35,7 +33,6 @@ export async function loginUser(req, res) {
   const { email, password } = req.body;
   // Authenticate user
   try {
-    // Find user by his email
     const user = await UserModel.getUserByEmail(email);
     if (!user) {
       return res
@@ -64,8 +61,7 @@ export async function loginUser(req, res) {
       return res.status(400).json({ error: "Wrong credentials!" });
     }
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 }
 
@@ -74,7 +70,7 @@ export function logoutUser(req, res) {
   return res.status(200).json({ message: "Logged out successfully" });
 }
 
-export async function registerUser(req, res) {
+export async function registerUser(req, res, next) {
   const { firstName, lastName, email, role, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 12);
   try {
@@ -87,20 +83,11 @@ export async function registerUser(req, res) {
     );
     return res.status(201).json({ message: "User successfully created!" });
   } catch (error) {
-    if (
-      error.code === 11000 &&
-      error.keyPattern &&
-      error.keyPattern.email === 1
-    ) {
-      return res.status(400).json({ error: "Email is already in use!" });
-    } else {
-      console.error("Error creating user:", error);
-      return res.status(500).json({ error: "Internal server error" });
-    }
+    next(error);
   }
 }
 
-export async function updateUserById(req, res) {
+export async function updateUserById(req, res, next) {
   const id = req.params.id;
   const { firstName, lastName, role } = req.body;
 
@@ -110,15 +97,14 @@ export async function updateUserById(req, res) {
       lastName,
       role,
     });
-    if (!updatedUser)
+    if (!updatedUser) {
       return res
         .status(400)
         .json({ error: `User with provided id: ${id} doesn't exist! ` });
+    }
     return res.json(updatedUser);
   } catch (error) {
-    return res.status(400).json({
-      error: `User with provided id: ${id} doesn't exist! `,
-    });
+    next(error);
   }
 }
 
@@ -136,7 +122,6 @@ export async function deleteUserById(req, res) {
       content: deletedUser,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 }
