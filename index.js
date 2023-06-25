@@ -1,13 +1,11 @@
 import express from "express";
-const app = express();
-
 import cookieParser from "cookie-parser";
 import connectToDatabase from "./src/service/db.js";
 
 // Routes
-// const userRoutes = require("./api/routes/userRoutes");
 import userRouter from "./src/routes/userRouter.js";
 
+const app = express();
 const port = 3000;
 
 // MIDDLEWARE
