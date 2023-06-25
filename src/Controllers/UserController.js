@@ -97,13 +97,23 @@ export async function registerUser(req, res) {
 export async function updateUserById(req, res) {
   const id = req.params.id;
   const { firstName, lastName, role } = req.body;
-  const updatedUser = await UserModel.updateUserById(id, {
-    firstName,
-    lastName,
-    role,
-  });
 
-  res.json(updatedUser);
+  try {
+    const updatedUser = await UserModel.updateUserById(id, {
+      firstName,
+      lastName,
+      role,
+    });
+    if (!updatedUser)
+      res
+        .status(400)
+        .json({ error: `User with provided id: ${id} doesn't exist! ` });
+    return res.json(updatedUser);
+  } catch (error) {
+    return res.status(400).json({
+      error: `User with provided id: ${id} doesn't exist! `,
+    });
+  }
 }
 
 export async function deleteUserById(req, res) {

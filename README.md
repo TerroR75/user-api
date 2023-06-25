@@ -66,4 +66,4 @@ To create a MongoDB connection follow these steps:
    const dbName = "DB NAME HERE"; // default: UserAPI
    ```
 
-7. If you are using Postman for testing the API, feel free to use my [Postman API calls collection](./users-api-collection.json)
+7. If you are using Postman for testing the API, feel free to use my [Postman API calls collection](./Users.postman_collection.json)
