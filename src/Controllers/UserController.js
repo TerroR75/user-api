@@ -12,6 +12,7 @@ export async function getAllUsers(req, res) {
     return res.status(200).json(users);
   } catch (error) {
     console.log(error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
@@ -26,6 +27,7 @@ export async function getUserById(req, res) {
     return res.status(200).json(user);
   } catch (error) {
     console.log(error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
@@ -62,7 +64,8 @@ export async function loginUser(req, res) {
       return res.status(400).json({ error: "Wrong credentials!" });
     }
   } catch (error) {
-    return res.json(error);
+    console.log(error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
@@ -134,5 +137,6 @@ export async function deleteUserById(req, res) {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 }
