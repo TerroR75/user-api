@@ -48,20 +48,22 @@ To create a MongoDB connection follow these steps:
 1. Install MongoDB Community Server and MongoDB Compass https://www.mongodb.com/try/download/community
 2. Add Environment variable to your PATH in "System variables"
    `C:\Program Files\MongoDB\Server\6.0\bin` for more info check [this guide](https://medium.com/@therkverma/set-mongodb-in-the-windows-path-environment-9d4c81477b32)
-3. Then start your mongo server by using this command in Shell or Command Prompt:
+3. Then start your mongo server by using this command in PowerShell or Command Prompt:
 
    ```
    $ mongod
    ```
 
-   This should start your server and the last message inside Command Prompt should be `{msg: "Waiting for connections"}`
+   This should start your server and the last message object inside Command Prompt should contain this property message `{msg: "Waiting for connections"}`
 
 4. In MongoDB Compass, click Connect and you should be connected by default on `localhost:27017`
 
-5. Open `api/database/index.js` and change
+5. Create database (default name is: `UserAPI`)
+
+6. Open `src/service/db.js` and change
 
    ```javascript
-   const dbName = "DB NAME HERE";
+   const dbName = "DB NAME HERE"; // default: UserAPI
    ```
 
-6. If you are using Postman for testing the API, feel free to use my [Postman API calls collection](./users-api-collection.json)
+7. If you are using Postman for testing the API, feel free to use my [Postman API calls collection](./users-api-collection.json)
