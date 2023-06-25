@@ -43,8 +43,12 @@ async function createUser(firstName, lastName, email, role, password) {
   return user;
 }
 async function deleteUser(id) {
-  const user = await User.findByIdAndDelete(id);
-  return user;
+  try {
+    const user = await User.findByIdAndDelete(id);
+    return user;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 const UserModel = {

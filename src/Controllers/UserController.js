@@ -33,7 +33,9 @@ export async function loginUser(req, res) {
     // Find user by his email
     const user = await UserModel.getUserByEmail(email);
     if (!user) {
-      res.status(400).json({ error: "User with this email does not exist!" });
+      return res
+        .status(400)
+        .json({ error: "User with this email does not exist!" });
     }
     const serializedUser = {
       id: user._id,
@@ -52,13 +54,12 @@ export async function loginUser(req, res) {
       res.cookie("token", accessToken, {
         httpOnly: true,
       });
-      res.status(200).json({ message: "Logged in successfuly!" });
+      return res.status(200).json({ message: "Logged in successfuly!" });
     } else {
-      res.status(400).json({ error: "Wrong credentials!" });
+      return res.status(400).json({ error: "Wrong credentials!" });
     }
   } catch (error) {
-    res.send(error);
-    console.log(error);
+    return res.json(error);
   }
 }
 
@@ -109,6 +110,11 @@ export async function deleteUserById(req, res) {
   const id = req.params.id;
   try {
     const deletedUser = await UserModel.deleteUser(id);
+    if (!deletedUser) {
+      return res
+        .status(400)
+        .json({ error: `No user with id: ${id} was found.` });
+    }
     res.status(200).json({
       message: `Successfully deleted user with id ${id}`,
       content: deletedUser,
